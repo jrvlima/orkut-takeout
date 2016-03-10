@@ -8,7 +8,7 @@ class OrkutClient
    
     LIST_MY_FRIENDSHIPS = "friendships/me"
 	
-	def sign_in(user,password)
+	def sign_in(user, password)
  	  response = RestClient.post BASE_URL + SIGN_IN_CLIENT_URL, {username: user, password: password }
  	  Authorizable.set_token(response.body)
  	  response
