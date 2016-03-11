@@ -1,7 +1,6 @@
 require 'csv'
 
 class CSVExporter 
-	
 	def export_friends(input = [], user = {})
 		CSV.generate do |csv|
 			csv << ["my_name","my_email","friend_name","friend_email"]

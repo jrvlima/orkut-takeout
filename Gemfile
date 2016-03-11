@@ -33,6 +33,13 @@ gem 'nokogiri'
 gem 'json_builder'
 
 
+gem 'guard'
+gem 'guard-rails', '~> 0.7.2'
+gem 'rb-fsevent', :require => false if RUBY_PLATFORM =~ /darwin/i
+gem 'guard-rspec'
+gem 'guard-livereload'
+
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
