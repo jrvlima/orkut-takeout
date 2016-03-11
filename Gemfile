@@ -32,10 +32,11 @@ gem 'simplecov', require: false
 gem 'nokogiri'
 gem 'json_builder'
 
+gem 'rb-fsevent', :require => false if RUBY_PLATFORM =~ /darwin/i
+
 group :test, :development do
   gem 'guard'
   gem 'guard-rails', '~> 0.7.2'
-  gem 'rb-fsevent', :require => false if RUBY_PLATFORM =~ /darwin/i
   gem 'guard-rspec'
   gem 'guard-livereload'
 end
