@@ -3,11 +3,17 @@ require 'rails_helper'
 
 describe OrkutClient do
 
-	let(:sign_in_response) { 
+	let(:sign_in_response) do
 		sign_in_response = double()
 		allow(sign_in_response).to receive(:body).and_return("my token")
 		sign_in_response
-	} 
+	end
+
+	let(:current_user_info_response) do
+		current_user_info_response = double()
+		allow(current_user_info_response).to receive(:body).and_return("{}")
+		current_user_info_response
+	end
 
 	it "should sign in to Orkut Server" do
 		#setup
@@ -21,10 +27,9 @@ describe OrkutClient do
 					)
 				).and_return(sign_in_response)
 		#exercise
-		response = orkut_client.sign_in("pedrohrs08@gmail.com", "081289")
+		orkut_client.sign_in("pedrohrs08@gmail.com", "081289")
 		
-		# expect(response.code).to eq 200
-		# expect(response.body).to_not be_nil
+		expect(Authorizable).to be_signed_in
 	end
 
 	it "should sign_out from Orkut Server" do
@@ -39,6 +44,32 @@ describe OrkutClient do
 		
 		#verify
 		expect(Authorizable).to_not be_signed_in
+  end
+
+	context "#get_current_user_info" do
+		it "should throw an exception if the user is not signed in" do
+			orkut_client = OrkutClient.new
+			expect{ orkut_client.get_current_user_info }.to raise_error(/not signed in/)
+		end
+
+		it "should call the get current user info endpoint passing the authentication token" do
+
+
+			allow(Authorizable).to receive(:signed_in?).and_return(true)
+			allow(Authorizable).to receive(:get_token).and_return("my token")
+
+			expect(RestClient::Request).to receive(:execute).with(hash_including(
+																																method: :get,
+																																url: /users\/me/,
+																																headers: { :Authorization => "my token" }
+																														)).and_return(current_user_info_response)
+
+			orkut_client = OrkutClient.new
+
+			response = orkut_client.get_current_user_info
+			expect(response).to be_a(Hash)
+
+		end
 	end
 
 end
