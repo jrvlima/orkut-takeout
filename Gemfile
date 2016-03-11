@@ -32,6 +32,13 @@ gem 'simplecov', require: false
 gem 'nokogiri'
 gem 'json_builder'
 
+group :test, :development do
+  gem 'guard'
+  gem 'guard-rails', '~> 0.7.2'
+  gem 'guard-rspec'
+  gem 'guard-livereload'
+end
+
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
